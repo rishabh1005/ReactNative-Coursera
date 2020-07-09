@@ -32,9 +32,6 @@ class Dishdetail extends Component {
         };
     }
 
-    static screenOptions = {
-        title: 'Dish Details'
-    };
 
     render() {
         const dishId = JSON.stringify(this.props.route.params.dishId);

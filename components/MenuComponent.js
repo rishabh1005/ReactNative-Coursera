@@ -12,9 +12,6 @@ class Menu extends Component {
         };
     }
 
-    static screenOptions = {
-        title: 'Menu'
-    };
 
     render() {
 
