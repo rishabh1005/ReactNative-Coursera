@@ -4,6 +4,7 @@ import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Dishdetail from './DishdetailComponent';
+import Reservation from './ReservationComponent';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator,   DrawerContentScrollView, DrawerItemList, } from '@react-navigation/drawer';
@@ -166,6 +167,35 @@ function ContactNavigator({navigation}){
     );    
 }
 
+function ReservationNavigator({navigation}){
+    return (
+        <Stack.Navigator
+            screenOptions =  {{    
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    color: "#fff"            
+            }
+        }}>
+            <Stack.Screen name="Reservation" component={Reservation}
+                options = {{
+                    title:'Reserve Table',
+                    headerLeft : () => (
+                        <Icon name="menu" size={24} 
+                        color= 'white'
+                        containerStyle = {{marginLeft:10}}
+                        onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                }}
+            />
+        </Stack.Navigator>
+
+    );    
+}
+
 function MainNavigator(){
     return(
         <Drawer.Navigator initialRouteName="Home"
@@ -214,6 +244,18 @@ function MainNavigator(){
                 drawerIcon: ({ tintColor, focused }) => (
                 <Icon
                     name='address-card'
+                    type='font-awesome'            
+                    size={22}
+                    color={tintColor}
+                />
+                )
+            }}/>
+            <Drawer.Screen name="Reservation" options={{title:'Contact Us'}} component={ReservationNavigator} options={{
+                title:'Reserve Table',
+                drawerLabel: 'Reserve Table',
+                drawerIcon: ({ tintColor, focused }) => (
+                <Icon
+                    name='cutlery'
                     type='font-awesome'            
                     size={22}
                     color={tintColor}
