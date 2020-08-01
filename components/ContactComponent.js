@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View } from 'react-native';
 import { Card } from 'react-native-elements';
+import * as Animatable from 'react-native-animatable';
 
 function ContactDetails(){
     return (
@@ -20,9 +21,11 @@ class Contact extends Component {
     render() {
         return(
             <ScrollView>
-                <Card title="Contact Information">
-                    <ContactDetails />
-                </Card>
+                <Animatable.View animation="fadeInDown" duration={2000} delay={1000}> 
+                    <Card title="Contact Information">
+                        <ContactDetails />
+                    </Card>
+                </Animatable.View>
             </ScrollView>
         );
     }
