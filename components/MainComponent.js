@@ -4,6 +4,7 @@ import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Dishdetail from './DishdetailComponent';
+import Favorites from './FavoriteComponent';
 import Reservation from './ReservationComponent';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -167,6 +168,35 @@ function ContactNavigator({navigation}){
     );    
 }
 
+function FavoritesNavigator({navigation}){
+    return (
+        <Stack.Navigator
+            screenOptions =  {{    
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                    color: "#fff"            
+            }
+        }}>
+            <Stack.Screen name="Favorites" component={Favorites}
+                options = {{
+                    title:'My Favorites',
+                    headerLeft : () => (
+                        <Icon name="menu" size={24} 
+                        color= 'white'
+                        containerStyle = {{marginLeft:10}}
+                        onPress={() => navigation.toggleDrawer()}
+                        />
+                    )
+                }}
+            />
+        </Stack.Navigator>
+
+    );    
+}
+
 function ReservationNavigator({navigation}){
     return (
         <Stack.Navigator
@@ -244,6 +274,18 @@ function MainNavigator(){
                 drawerIcon: ({ tintColor, focused }) => (
                 <Icon
                     name='address-card'
+                    type='font-awesome'            
+                    size={22}
+                    color={tintColor}
+                />
+                )
+            }}/>
+            <Drawer.Screen name="Favorites" options={{title:'My Favorites'}} component={FavoritesNavigator} options={{
+                title:'My Favorites',
+                drawerLabel: 'My Favorites',
+                drawerIcon: ({ tintColor, focused }) => (
+                <Icon
+                    name='heart'
                     type='font-awesome'            
                     size={22}
                     color={tintColor}
