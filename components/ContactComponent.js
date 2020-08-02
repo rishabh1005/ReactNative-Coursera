@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import { Text, ScrollView, View } from 'react-native';
-import { Card } from 'react-native-elements';
+import { Card, Button, Icon } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
+import * as MailComposer from "expo-mail-composer";
+
+function sendMail() {
+    MailComposer.composeAsync({
+        recipients: ['confusion@food.net'],
+        subject: 'Enquiry',
+        body: 'To whom it may concern:'
+    })
+}
 
 function ContactDetails(){
+
     return (
+
+        
         <View >
             <Text style={{margin: 10}}>121, Clear Water Bay Road</Text>
             <Text style={{margin: 10}}>Clear Water Bay, Kowloon</Text>
@@ -12,11 +24,19 @@ function ContactDetails(){
             <Text style={{margin: 10}}>Tel: +852 1234 5678</Text>
             <Text style={{margin: 10}}>Fax: +852 8765 4321</Text>
             <Text style={{margin: 10}}>Email:confusion@food.net</Text>
+            <Button
+                title="Send Email"
+                buttonStyle={{backgroundColor: "#512DA8"}}
+                icon={<Icon name='envelope-o' type='font-awesome' color='white' />}
+                onPress={() => sendMail()}
+                />
         </View>    
     );
 }
 
 class Contact extends Component {
+
+    
 
     render() {
         return(
