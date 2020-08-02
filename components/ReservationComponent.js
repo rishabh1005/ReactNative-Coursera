@@ -4,6 +4,7 @@ import DatePicker from 'react-native-datepicker'
 import * as Animatable from 'react-native-animatable';
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
+import * as Calender from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -27,12 +28,12 @@ class Reservation extends Component {
         //this.toggleModal();
         Alert.alert(
             'Your Reservation OK?',
-            'Number of Guests: ' + this.state.guests + 
-            '\nSmoking? ' +(this.state.smoking ? 'Yes' : 'No')+
-            '\nDate and Time: '+this.state.date,
+            'Number of Guests: ' + this.state.guests +
+            '\nSmoking? ' + (this.state.smoking ? 'Yes' : 'No') +
+            '\nDate and Time: ' + this.state.date,
             [
-            {text: 'Cancel', onPress: () => this.resetForm() , style: 'cancel'},
-            {text: 'OK', onPress: () => {this.resetForm() ; this.presentLocalNotification(this.state.date) } },
+                { text: 'Cancel', onPress: () => this.resetForm(), style: 'cancel' },
+                { text: 'OK', onPress: () => { this.resetForm() ;this.presentLocalNotification(this.state.date)  } },
             ],
             { cancelable: false }
         );
@@ -62,7 +63,7 @@ class Reservation extends Component {
         await this.obtainNotificationPermission();
         Notifications.presentLocalNotificationAsync({
             title: 'Your Reservation',
-            body: 'Reservation for '+ date + ' requested',
+            body: 'Reservation for ' + date + ' requested',
             ios: {
                 sound: true
             },
@@ -72,6 +73,39 @@ class Reservation extends Component {
                 color: '#512DA8'
             }
         });
+    }
+
+    async obtainCalendarPermission() {
+        let permission = await Permissions.getAsync(Permissions.CALENDAR);
+        if (permission.status !== "granted") {
+            const permission = await Permissions.getAsync(Permissions.CALENDAR);
+            if (permission.status !== "granted") {
+                Alert.alert("Permission not granted to show notifications");
+            }
+        }
+
+        return permission;
+    }
+
+    async addReservationToCalendar(date) {
+        await this.obtainCalendarPermission();
+        let myCalendar = await Calendar.getCalendarsAsync();
+        const defaultCalendars = myCalendar.filter(
+            (each) => each.source.name === "account_name_local"
+        );
+
+        const newCalendarID = await Calendar.createEventAsync(
+            defaultCalendars[0].id,
+            {
+                title: "Con Fusion Table Reservation",
+                startDate: new Date(Date.parse(date)),
+                endDate: new Date(Date.parse(date) + 2 * 60 * 60 * 1000),
+                timeZone: "Asia/Hong_Kong",
+
+                location:
+                    "121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong",
+            }
+        );
     }
 
     render() {
@@ -135,8 +169,8 @@ class Reservation extends Component {
                             accessibilityLabel="Learn more about this purple button"
                         />
                     </View>
-                    
-                    <Modal animationType={"slide"} transparent={false}
+
+                    {/*<Modal animationType={"slide"} transparent={false}
                         visible={this.state.showModal}
                         onDismiss={() => this.toggleModal()}
                         onRequestClose={() => this.toggleModal()}>
@@ -152,7 +186,7 @@ class Reservation extends Component {
                                 title="Close"
                             />
                         </View>
-                    </Modal>
+                        </Modal>*/}
                 </ScrollView>
             </Animatable.View>
         );
